@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bem-vindo ao Persovite</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;700&display=swap');
+
+        body {
+            margin: 0;
+            font-family: 'Poppins', sans-serif;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            color: white;
+            /* Fundo gradiente com tema cósmico */
+            background: linear-gradient(-45deg, #0f0c29, #302b63, #24243e);
+            background-size: 400% 400%;
+            animation: gradientBG 15s ease infinite;
+        }
+
+        @keyframes gradientBG {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        .container {
+            max-width: 600px;
+            padding: 2rem;
+        }
+
+        h1 {
+            font-size: 3.5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            text-shadow: 0px 4px 15px rgba(0, 0, 0, 0.3);
+        }
+
+        p {
+            font-size: 1.2rem;
+            font-weight: 300;
+            margin-bottom: 2.5rem;
+            line-height: 1.6;
+            opacity: 0.9;
+        }
+
+        .cta-button {
+            display: inline-block;
+            background: linear-gradient(90deg, #f5af19 0%, #f12711 100%);
+            color: white;
+            padding: 1rem 2.5rem;
+            text-decoration: none;
+            font-size: 1.2rem;
+            font-weight: 700;
+            border-radius: 50px;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            box-shadow: 0px 5px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        .cta-button:hover {
+            transform: translateY(-5px) scale(1.05);
+            box-shadow: 0px 8px 25px rgba(0, 0, 0, 0.3);
+        }
+
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>Persovite</h1>
+        <p>
+            Seu guia pessoal para o autoconhecimento através dos astros.
+            Descubra as forças que moldam sua personalidade e desvende os mistérios do seu universo interior.
+        </p>
+        <a href="persovite.html" class="cta-button">Iniciar Minha Jornada</a>
+    </div>
+
+</body>
+</html>

@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Persovite - Descubra seu Mapa Astral</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap');
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #f0f2f5;
+            color: #333;
+            margin: 0;
+            padding: 2rem;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        .container {
+            background-color: #ffffff;
+            border-radius: 12px;
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.1);
+            max-width: 800px;
+            width: 100%;
+            overflow: hidden;
+        }
+
+        /* --- Seção do Formulário --- */
+        #form-container {
+            padding: 2rem 3rem;
+        }
+        
+        h1, h2 {
+            text-align: center;
+            color: #2c3e50;
+        }
+
+        h1 { font-size: 2.2rem; }
+        h2 { font-size: 1.8rem; margin-bottom: 2rem;}
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+            color: #555;
+        }
+
+        input[type="text"], input[type="date"], input[type="time"] {
+            width: 100%;
+            padding: 0.8rem;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 1rem;
+            box-sizing: border-box;
+        }
+
+        .submit-btn {
+            background: linear-gradient(90deg, #6a11cb 0%, #2575fc 100%);
+            color: white;
+            border: none;
+            padding: 1rem;
+            width: 100%;
+            border-radius: 8px;
+            font-size: 1.1rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: transform 0.2s ease;
+        }
+        .submit-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
+        }
+
+        /* --- Seção de Carregamento --- */
+        #loading-container {
+            display: none;
+            padding: 4rem;
+            text-align: center;
+        }
+        .spinner {
+            border: 8px solid #f3f3f3;
+            border-top: 8px solid #3498db;
+            border-radius: 50%;
+            width: 60px;
+            height: 60px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 1.5rem auto;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        #loading-container p {
+            font-size: 1.2rem;
+            font-weight: 600;
+        }
+
+        /* --- Seção de Resultado --- */
+        #result-container {
+            display: none;
+            padding: 2rem 3rem;
+        }
+
+        .result-header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+        
+        .mandala-img {
+            max-width: 400px;
+            width: 100%;
+            margin: 0 auto 2rem auto;
+            display: block;
+        }
+        
+        .big-three {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+            text-align: center;
+        }
+        .sign-card {
+            background-color: #f8f9fa;
+            padding: 1.5rem;
+            border-radius: 10px;
+            border-left: 5px solid #6a11cb;
+        }
+        .sign-card h3 { margin-top: 0; color: #2c3e50; }
+        .sign-card p { margin-bottom: 0; font-size: 1.2rem; font-weight: 600; }
+
+        .interpretation-section {
+            margin-bottom: 2rem;
+        }
+        .interpretation-section h3 {
+            border-bottom: 2px solid #6a11cb;
+            padding-bottom: 0.5rem;
+            color: #2c3e50;
+        }
+        
+        .buy-button {
+            background: linear-gradient(90deg, #f5af19 0%, #f12711 100%);
+            display: block;
+            width: 100%;
+            text-align: center;
+            padding: 1.2rem;
+            color: white;
+            font-size: 1.3rem;
+            font-weight: 700;
+            text-decoration: none;
+            border-radius: 10px;
+            transition: transform 0.2s ease;
+        }
+        .buy-button:hover {
+            transform: scale(1.02);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+        }
+        
+        #error-message {
+            display: none;
+            color: #c0392b;
+            text-align: center;
+            margin-top: 1rem;
+            font-weight: 600;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <!-- =============== FORMULÁRIO DE ENTRADA =============== -->
+        <div id="form-container">
+            <h1>Persovite</h1>
+            <h2>Descubra os segredos que os astros reservam para você</h2>
+            <form id="astral-form">
+                <div class="form-group">
+                    <label for="nome">Nome Completo</label>
+                    <input type="text" id="nome" name="nome" required>
+                </div>
+                <div class="form-group">
+                    <label for="nascimento">Data de Nascimento</label>
+                    <input type="date" id="nascimento" name="nascimento" required>
+                </div>
+                <div class="form-group">
+                    <label for="hora">Hora de Nascimento</label>
+                    <input type="time" id="hora" name="hora" required>
+                </div>
+                <div class="form-group">
+                    <label for="local">Cidade e Estado de Nascimento (Ex: São Paulo, SP)</label>
+                    <input type="text" id="local" name="local" required>
+                </div>
+                <button type="submit" class="submit-btn">Gerar Amostra Grátis</button>
+                <p id="error-message"></p>
+            </form>
+        </div>
+
+        <!-- =============== TELA DE CARREGAMENTO =============== -->
+        <div id="loading-container">
+            <div class="spinner"></div>
+            <p>Os astros estão se alinhando...<br>Estamos calculando seu mapa!</p>
+        </div>
+        
+        <!-- =============== TELA DE RESULTADO =============== -->
+        <div id="result-container">
+            <div class="result-header">
+                <h2 id="result-title">Sua Amostra Astral Grátis, [Nome]!</h2>
+                <img id="mandala-svg" src="" alt="Mapa Astral" class="mandala-img">
+            </div>
+
+            <div class="big-three">
+                <div class="sign-card">
+                    <h3>☀️ Sol</h3>
+                    <p id="sol-signo">[Signo]</p>
+                </div>
+                <div class="sign-card">
+                    <h3>🌙 Lua</h3>
+                    <p id="lua-signo">[Signo]</p>
+                </div>
+                <div class="sign-card">
+                    <h3>⬆️ Ascendente</h3>
+                    <p id="asc-signo">[Signo]</p>
+                </div>
+            </div>
+
+            <div class="interpretation-section">
+                <h3 id="identidade-title">✨ Sua Identidade Cósmica</h3>
+                <p id="identidade-text">[Texto de interpretação da identidade]</p>
+            </div>
+            
+            <div class="interpretation-section">
+                <h3 id="sol-title">🔥 A Força do seu Sol</h3>
+                <p id="sol-text">[Texto de interpretação do Sol]</p>
+            </div>
+            
+             <div class="interpretation-section">
+                <h3 id="lua-title">🌊 Os Segredos da sua Lua</h3>
+                <p id="lua-text">[Texto de interpretação da Lua]</p>
+            </div>
+            
+            <a href="https://SEU_LINK_DE_PAGAMENTO_AQUI" class="buy-button">Desbloquear Análise Completa Agora!</a>
+        </div>
+
+    </div>
+
+    <script>
+        // =============== LÓGICA JAVASCRIPT ===============
+
+        // !!! IMPORTANTE: SUBSTITUA PELA URL DO SEU WEBHOOK DO N8N !!!
+        const N8N_WEBHOOK_URL = 'https://qyfv7zwd-n8n.cloudfy.cloud/webhook/mapa-astral-persovite';
+
+        const form = document.getElementById('astral-form');
+        const formContainer = document.getElementById('form-container');
+        const loadingContainer = document.getElementById('loading-container');
+        const resultContainer = document.getElementById('result-container');
+        const errorMessage = document.getElementById('error-message');
+
+        form.addEventListener('submit', async function(event) {
+            event.preventDefault(); // Impede o recarregamento da página
+
+            // 1. Mostrar a tela de carregamento
+            formContainer.style.display = 'none';
+            loadingContainer.style.display = 'block';
+            errorMessage.style.display = 'none';
+
+            // 2. Coletar os dados do formulário
+            const nome = document.getElementById('nome').value;
+            const formData = {
+                nome: nome,
+                nascimento: document.getElementById('nascimento').value,
+                hora: document.getElementById('hora').value,
+                local: document.getElementById('local').value,
+            };
+
+            try {
+                // 3. Enviar os dados para o webhook do n8n
+                const response = await fetch(N8N_WEBHOOK_URL, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(formData),
+                });
+
+                if (!response.ok) {
+                    throw new Error(`Erro na rede: ${response.statusText}`);
+                }
+
+                const data = await response.json(); // Espera a resposta final do n8n
+
+                // 4. Preencher a página de resultado com os dados recebidos
+                document.getElementById('result-title').innerText = `Sua Amostra Astral Grátis, ${nome}!`;
+                document.getElementById('mandala-svg').src = data.mandala_svg;
+                
+                document.getElementById('sol-signo').innerText = `${data.signos.sol.signo} ${data.signos.sol.grau}`;
+                document.getElementById('lua-signo').innerText = `${data.signos.lua.signo} ${data.signos.lua.grau}`;
+                document.getElementById('asc-signo').innerText = `${data.signos.ascendente.signo} ${data.signos.ascendente.grau}`;
+
+                document.getElementById('identidade-text').innerText = data.interpretacoes.identidade;
+                document.getElementById('sol-text').innerText = data.interpretacoes.sol;
+                document.getElementById('lua-text').innerText = data.interpretacoes.lua;
+
+                // 5. Mostrar a tela de resultado
+                loadingContainer.style.display = 'none';
+                resultContainer.style.display = 'block';
+
+            } catch (error) {
+                // 6. Em caso de erro, mostrar mensagem e reexibir o formulário
+                console.error('Falha ao processar o mapa astral:', error);
+                errorMessage.innerText = 'Ops! Algo deu errado. Por favor, verifique seus dados e tente novamente.';
+                errorMessage.style.display = 'block';
+                
+                loadingContainer.style.display = 'none';
+                formContainer.style.display = 'block';
+            }
+        });
+    </script>
+
+</body>
+</html>
